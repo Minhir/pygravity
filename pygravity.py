@@ -1,8 +1,4 @@
-from math import sqrt
-
-data_file = open('data.dat', 'w')
-
-class Planet():
+class Planet:
 
     def __init__(self, x, y, m, v_x, v_y, name):
         self.x = x
@@ -13,15 +9,21 @@ class Planet():
         self.name = name
 
 
-class World():
+class World:
 
     def __init__(self, step=0.001, G=6.67*10**-11):
         self.step = step
         self.G = G
         self.planet_list = []
+        self.print_data = False
 
     def distance(self, p1, p2):
-        return sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
+        return ((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2) ** 0.5
+
+    def output_data_config(self, file_name='data.dat', split=100):
+        self.print_data = True
+        self.data_file = open(file_name, 'w')
+        self.split = split
 
     def force_between(self, p1, p2):
         distance = self.distance(p1, p2)
@@ -51,18 +53,18 @@ class World():
             speed_delta_y = self.step * delta_f_y[i] / mass
             self.planet_list[i].x += self.step * (self.planet_list[i].v_x + speed_delta_x / 2)
             self.planet_list[i].y += self.step * (self.planet_list[i].v_y + speed_delta_y / 2)
-            self.planet_list[i].v_x = self.planet_list[i].v_x + speed_delta_x
-            self.planet_list[i].v_y = self.planet_list[i].v_y + speed_delta_y
+            self.planet_list[i].v_x += speed_delta_x
+            self.planet_list[i].v_y += speed_delta_y
 
     def run(self, number_of_steps):
         for i in range(number_of_steps):
             self.step_count()
-            if i % 10000 == 0:
-                print(1. * i / number_of_steps)
-                print_list = []
-                for j in self.planet_list:
-                    print_list.append(j.x)
-                    print_list.append(j.y)
-                data_file.write(' '.join(list(map(str, print_list))))
-                data_file.write('\n')
-
+            if self.print_data:
+                if i % self.split == 0:
+                    print(1. * i / number_of_steps)
+                    print_list = []
+                    for j in self.planet_list:
+                        print_list.append(j.x)
+                        print_list.append(j.y)
+                    self.data_file.write(' '.join(list(map(str, print_list))))
+                    self.data_file.write('\n')
