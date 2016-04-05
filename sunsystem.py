@@ -15,5 +15,5 @@ asteroid = Planet(4452.94 * 10 ** 8, 4452.94 * 10 ** 8, 1.0243 * 10**8, -438, -5
 
 world = World(60*5)
 world.add_planets(sun, mercury, venera, earth, mars, jupiter, saturn, uran, neptun, asteroid)
-world.run(10000000)
+world.run(1000000)
 

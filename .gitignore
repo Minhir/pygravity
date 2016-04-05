@@ -7,8 +7,8 @@ __pycache__/
 *.so
 
 # Data
-
 *.dat
+
 
 # Distribution / packaging
 .Python
@@ -111,3 +111,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
